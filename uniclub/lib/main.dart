@@ -1,65 +1,53 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'screens/login_screen.dart';
+import 'screens/student_register.dart';
+import 'screens/student_dashboard.dart';
+import 'screens/club_dashboard.dart';
+import 'screens/college_admin_dashboard.dart';
+import 'screens/super_admin_dashboard.dart';
+import 'screens/student_email_verification_screen.dart';
+import 'screens/create_club_screen.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+  options: const FirebaseOptions(
+    apiKey: "AIzaSyDnIJ515vs0y7ICMXI4JdQECa4MVwpEn_A",
+    authDomain: "clubverse-4141f.firebaseapp.com",
+    projectId: "clubverse-4141f",
+    storageBucket: "clubverse-4141f.firebasestorage.app",
+    messagingSenderId: "55531643982",
+    appId: "1:55531643982:web:8002d80ff4016e8bd68f1f",
+    measurementId: "G-Z79HEG7LTD"
+  ),
+);
+
+  runApp(const ClubPortalApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class ClubPortalApp extends StatelessWidget {
+  const ClubPortalApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Web Demo',
+      title: 'College Club Portal',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
+        colorSchemeSeed: Colors.blue,
       ),
-      home: const MyHomePage(title: 'My Custom Web Page'),
-      debugShowCheckedModeBanner: false, // Optional: hides the debug banner
-    );
-  }
-}
-
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[
-            Text(
-              'Welcome to My Flutter Web Page!',
-              style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 20),
-            Text(
-              'This is your custom content.',
-              style: TextStyle(
-                fontSize: 20,
-              ),
-            ),
-            Text(
-              'You can add more widgets here.',
-              style: TextStyle(
-                fontSize: 20,
-              ),
-            )
-          ],
-        ),
-      ),
+      initialRoute: '/register',
+      routes: {
+        '/': (context) => const LoginScreen(),
+        '/register': (context) => const StudentRegisterScreen(),
+        '/verify-email': (context) => const StudentEmailVerificationScreen(),
+        '/student-dashboard': (context) => const StudentDashboard(),
+        '/club-dashboard': (context) => const ClubDashboard(),
+        '/college-admin-dashboard': (context) => const CollegeAdminDashboard(),
+        '/super-admin-dashboard': (context) => const SuperAdminDashboard(),
+        '/create-club': (context) => const CreateClubScreen(),
+      },
     );
   }
 }
